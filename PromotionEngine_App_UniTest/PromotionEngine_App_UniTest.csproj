@@ -14,6 +14,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\PromotionEngine_App\PromotionEngine_App.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Reference Include="PromotionEngine_App">
       <HintPath>..\PromotionEngine_App\bin\Debug\netcoreapp3.0\PromotionEngine_App.dll</HintPath>
     </Reference>

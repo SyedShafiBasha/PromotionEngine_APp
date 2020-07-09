@@ -7,11 +7,8 @@ namespace PromotionEngine_App
     {
         static void Main(string[] args)
         {
-
             Console.WriteLine("Please enter total number of orders");
-
             GetTotalOrderDetails(Console.ReadLine());
-
             Console.ReadLine();
         }
 
@@ -34,8 +31,14 @@ namespace PromotionEngine_App
                 product = new Product();
                 Console.WriteLine("Enter the type of product:A,B,C or D");
                 product.Id = Console.ReadLine().ToUpper();
-                productService.GetPriceByType(product);
+                while (!Constant.ProductName.Contains(product.Id))
+                {
+                    Console.WriteLine("You entered an invalid product name");
+                    Console.WriteLine("Enter the type of product:A,B,C or D");
+                    product.Id = Console.ReadLine().ToUpper();
+                }
                 products.Add(product);
+
             }
             int totalPrice = productService.GetTotalProductPrice(products);
             Console.WriteLine("Totla price of product {0}", totalPrice);

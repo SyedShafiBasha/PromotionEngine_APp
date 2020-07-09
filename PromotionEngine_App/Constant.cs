@@ -13,5 +13,7 @@ namespace PromotionEngine_App
         public const int DiscountPriceOfProductA = 130;
         public const int DiscountPriceOfProductB = 45;
         public const int DiscountPriceOfProductCD = 45;
+        public const string ProductName = "A,B,C,D";
+
     }
 }
