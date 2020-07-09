@@ -3,15 +3,32 @@ using System.Collections.Generic;
 
 namespace PromotionEngine_App
 {
-    class Program
+    public class Program
     {
         static void Main(string[] args)
         {
+
+            Console.WriteLine("Please enter total number of orders");
+
+            GetTotalOrderDetails(Console.ReadLine());
+
+            Console.ReadLine();
+        }
+
+        public static void GetTotalOrderDetails(string userOrder)
+        {
             IProductService productService = new ProductService();
             List<Product> products = new List<Product>();
-            Console.WriteLine("Please enter total number of orders");
             Product product = null;
-            int totalOrder = Convert.ToInt32(Console.ReadLine());
+            int totalOrder = 0;
+
+            while (!int.TryParse(userOrder, out totalOrder))
+            {
+                Console.Clear();
+                Console.WriteLine("You entered an invalid number");
+                Console.WriteLine("Please enter total number of orders");
+                userOrder = Console.ReadLine();
+            }
             for (int i = 0; i < totalOrder; i++)
             {
                 product = new Product();
@@ -22,7 +39,7 @@ namespace PromotionEngine_App
             }
             int totalPrice = productService.GetTotalProductPrice(products);
             Console.WriteLine("Totla price of product {0}", totalPrice);
-            Console.ReadLine();
+
         }
     }
 }

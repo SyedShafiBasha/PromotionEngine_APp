@@ -30,31 +30,31 @@ namespace PromotionEngine_App
         {
             if (products != null && products.Count > 0)
             {
-                int countOfAProduct = products.Where(x => x.Id != null && x.Id == "A").Count();
-                int countOfBProduct = products.Where(x => x.Id != null && x.Id == "B").Count();
-                int countOfCProduct = products.Where(x => x.Id != null && x.Id == "C").Count();
-                int countOfDProduct = products.Where(x => x.Id != null && x.Id == "D").Count();
-                return GetTotalAProductPrice(countOfAProduct) + GetTotalBProductPrice(countOfBProduct) + GetTotalCDProductPrice(countOfCProduct, countOfDProduct);
+                int listOfAProduct = products.Where(x => x.Id != null && x.Id == "A").Count();
+                int listOfBProduct = products.Where(x => x.Id != null && x.Id == "B").Count();
+                int listOfCProduct = products.Where(x => x.Id != null && x.Id == "C").Count();
+                int listOfDProduct = products.Where(x => x.Id != null && x.Id == "D").Count();
+                return GetTotalAProductPrice(listOfAProduct) + GetTotalBProductPrice(listOfBProduct) + GetTotalCDProductPrice(listOfCProduct, listOfDProduct);
             }
             return 0;
         }
 
-        public int GetTotalAProductPrice(int countOfA)
+        public int GetTotalAProductPrice(int listOfAProduct)
         {
-            return (countOfA / 3) * 130 + (countOfA % 3 * Constant.ProductA);
+            return (listOfAProduct / 3) * Constant.DiscountPriceOfProductA + (listOfAProduct % 3 * Constant.ProductA);
         }
 
-        public int GetTotalBProductPrice(int countOfB)
+        public int GetTotalBProductPrice(int listOfBProduct)
         {
-            return (countOfB / 2) * 45 + (countOfB % 2 * Constant.ProductB);
+            return (listOfBProduct / 2) * Constant.DiscountPriceOfProductB + (listOfBProduct % 2 * Constant.ProductB);
         }
 
-        public int GetTotalCDProductPrice(int countOfC, int countOfD)
+        public int GetTotalCDProductPrice(int listOfCProduct, int listOfDProduct)
         {
-            if (countOfC == countOfD)
-                return countOfC * 30;
-            else if (countOfC != 0 || countOfD != 0)
-                return (countOfC * Constant.ProductC) + (countOfD * Constant.ProductD);
+            if (listOfCProduct == listOfDProduct)
+                return listOfCProduct * Constant.DiscountPriceOfProductCD;
+            else if (listOfCProduct != 0 || listOfDProduct != 0)
+                return (listOfCProduct * Constant.ProductC) + (listOfDProduct * Constant.ProductD);
             return 0;
         }
     }
