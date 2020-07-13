@@ -1,55 +1,55 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using PromotionEngine_App;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace PromotionEngine_App_UniTest
 {
     [TestClass]
     public class PromotionEngineUnitTest
     {
-        ProductService productService = new ProductService();
-        List<Product> listProduct = null;
+        List<Promotion> listPromotion = null;
 
         [TestInitialize]
         public void Setup()
         {
-            listProduct = new List<Product>();
-            for (int i = 0; i < 3; i++)
+            if (listPromotion == null)
             {
-                Product product = new Product();
-                product.Id = "A";
-                productService.GetPriceByType(product);
-                listProduct.Add(product);
+                listPromotion = new List<Promotion>();
+                listPromotion = Promotion.DefaultProducPromotiont();
             }
-            for (int i = 0; i < 2; i++)
+            else
             {
-                Product product = new Product();
-                product.Id = "B";
-                productService.GetPriceByType(product);
-                listProduct.Add(product);
+                listPromotion = Promotion.DefaultProducPromotiont();
             }
+
         }
 
 
         [TestMethod]
-        public void Add_ThreeAProduct_GetDiscountPrice()
+        public void Add_CombinedProduct_GetPromotionTotalPrice()
         {
-            var getPriceOfA = productService.GetTotalAProductPrice(3);
-            Assert.AreEqual(130, getPriceOfA);
+            Order order = new Order(1, new List<Product>() { new Product("A"), new Product("A"), new Product("A"), new Product("B"), new Product("B"), new Product("C"), new Product("D") });
+            List<int> promoprices = listPromotion.Select(promo => Promotion.GetTotalPrice(order, promo)).ToList();
+            int totalPrice = promoprices.Sum();
+
+            Assert.AreEqual(205, totalPrice);
         }
 
         [TestMethod]
-        public void Add_TwoBProduct_GetDiscountPrice()
+        public void Add_CombinedAndIndividual_GetPromotionTotalPrice()
         {
-            var getPriceOfA = productService.GetTotalBProductPrice(2);
-            Assert.AreEqual(45, getPriceOfA);
+            Order order = new Order(1, new List<Product>() { new Product("A"), new Product("A"), new Product("A"), new Product("B"), new Product("C"), new Product("A"), new Product("C"), new Product("D") });
+            int promoprices = listPromotion.Select(promo => Promotion.GetTotalPrice(order, promo)).ToList().Sum();
+            Assert.AreEqual(260, promoprices);
         }
 
         [TestMethod]
         public void Add_AllProduct_GetTotalPrice()
         {
-            var getTotalPrice = productService.GetTotalProductPrice(listProduct);
-            Assert.AreEqual(175, getTotalPrice);
+            Order order = new Order(1, new List<Product>() { new Product("A"), new Product("A"), new Product("B"), new Product("D"), new Product("D"), new Product("D"), new Product("C") });
+            int promoprices = listPromotion.Select(promo => Promotion.GetTotalPrice(order, promo)).ToList().Sum();
+            Assert.AreEqual(190, promoprices);
         }
 
     }
